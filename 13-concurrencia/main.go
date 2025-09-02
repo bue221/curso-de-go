@@ -11,8 +11,13 @@ func main() {
 
 	apis := []string{"https://api.github.com", "https://api.google.com", "https://api.facebook.com"}
 
+	ch := make(chan string)
 	for _, api := range apis {
-		checkAPI(api)
+		go checkAPI(api, ch)
+	}
+
+	for range apis {
+		fmt.Println(<-ch)
 	}
 
 	elapsed := time.Since(start)
@@ -20,12 +25,13 @@ func main() {
 	fmt.Printf("Tiempo de ejecución: %s\n", elapsed)
 }
 
-func checkAPI(api string) {
+func checkAPI(api string, ch chan string) {
 
 	if _, err := http.Get(api); err != nil {
-		fmt.Printf("Error al llamar a la API %s \n", api)
+		ch <- fmt.Sprintf("Error al llamar a la API %s \n", api)
+
 		return
 	}
 
-	fmt.Printf("La API %s esta funcionando \n", api)
+	ch <- fmt.Sprintf("La API %s esta funcionando \n", api)
 }
