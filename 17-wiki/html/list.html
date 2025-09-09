@@ -213,11 +213,7 @@
 
           <ul class="pages-list" id="pagesList">
             {{ range .Pages }}
-            <li
-              class="page-item"
-              data-title="{{ .Title }}"
-              data-empty="{{ .IsEmpty }}"
-            >
+            <li class="page-item" data-title="{{ .Title }}">
               <div style="display: flex; align-items: center; gap: 10px">
                 <input
                   type="checkbox"
