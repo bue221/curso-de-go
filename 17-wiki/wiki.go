@@ -22,10 +22,6 @@ func (p *Page) save() error {
 	return os.WriteFile("./data/"+filename, []byte(p.Body), 0600)
 }
 
-func (p *Page) IsEmpty() bool {
-	return len(strings.TrimSpace(p.Body)) == 0
-}
-
 // Función para convertir markdown básico a HTML
 func markdownToHTML(markdown string) template.HTML {
 	// Procesar por líneas para manejar headers y listas correctamente
@@ -139,6 +135,8 @@ func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
+
+// Handlers
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
