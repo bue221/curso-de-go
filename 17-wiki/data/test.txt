@@ -1,0 +1,17 @@
+# Página de Prueba
+
+Esta es una página de prueba para la wiki.
+
+## Características:
+- **Texto en negrita**
+- *Texto en cursiva*
+- Lista de elementos
+
+### Código de ejemplo:
+```go
+func main() {
+    fmt.Println("¡Hola, Wiki!")
+}
+```
+
+¡Bienvenido a tu nueva wiki!

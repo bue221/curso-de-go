@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .Title }} - Wiki</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <style>
+      .header-left {
+        flex: 1;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin-bottom: 5px;
+        color: var(--primary-black);
+      }
+
+      .page-subtitle {
+        font-size: 1rem;
+        opacity: 0.8;
+        color: var(--primary-black);
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .content {
+        padding: 40px;
+        background: var(--secondary-black);
+      }
+
+      .wiki-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--text-light);
+        max-width: none;
+      }
+
+      .wiki-content h1 {
+        color: var(--primary-green);
+        border-bottom: 3px solid var(--primary-green);
+        padding-bottom: 10px;
+        margin: 30px 0 20px 0;
+        font-size: 2rem;
+      }
+
+      .wiki-content h2 {
+        color: var(--accent-green);
+        border-bottom: 2px solid var(--primary-green);
+        padding-bottom: 8px;
+        margin: 25px 0 15px 0;
+        font-size: 1.5rem;
+      }
+
+      .wiki-content h3 {
+        color: var(--text-light);
+        margin: 20px 0 10px 0;
+        font-size: 1.3rem;
+      }
+
+      .wiki-content p {
+        margin-bottom: 15px;
+        color: var(--text-light);
+      }
+
+      .wiki-content ul,
+      .wiki-content ol {
+        margin: 15px 0;
+        padding-left: 30px;
+      }
+
+      .wiki-content li {
+        margin-bottom: 8px;
+        color: var(--text-light);
+      }
+
+      .wiki-content blockquote {
+        border-left: 4px solid var(--primary-green);
+        background: var(--accent-black);
+        padding: 15px 20px;
+        margin: 20px 0;
+        border-radius: 0 8px 8px 0;
+        font-style: italic;
+        color: var(--text-light);
+      }
+
+      .wiki-content code {
+        background: var(--primary-black);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9em;
+        color: var(--primary-green);
+      }
+
+      .wiki-content pre {
+        background: var(--primary-black);
+        color: var(--text-light);
+        padding: 20px;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 20px 0;
+        border: 1px solid var(--border-color);
+      }
+
+      .wiki-content pre code {
+        background: none;
+        color: inherit;
+        padding: 0;
+      }
+
+      .wiki-content a {
+        color: var(--primary-green);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: all 0.3s ease;
+      }
+
+      .wiki-content a:hover {
+        border-bottom-color: var(--primary-green);
+        color: var(--accent-green);
+      }
+
+      .wiki-content strong {
+        color: var(--text-light);
+        font-weight: 600;
+      }
+
+      .wiki-content em {
+        color: var(--text-muted);
+        font-style: italic;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-muted);
+      }
+
+      .empty-state .icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+      }
+
+      .empty-state h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: var(--text-light);
+      }
+
+      .empty-state p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        color: var(--text-muted);
+      }
+
+      .btn-small {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        border-radius: 6px;
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .header-actions {
+          justify-content: center;
+        }
+
+        .page-title {
+          font-size: 2rem;
+        }
+
+        .content {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header-left">
+          <div class="wiki-logo">📚 <span>Wiki</span></div>
+          <h1 class="page-title">{{ .Title }}</h1>
+          <p class="page-subtitle">Página de la wiki</p>
+        </div>
+        <div class="header-actions">
+          <a href="/edit/{{ .Title }}" class="btn btn-primary"> ✏️ Editar </a>
+          <a href="/" class="btn btn-secondary"> 🏠 Inicio </a>
+        </div>
+      </div>
+
+      <div class="content">
+        {{ if .Body }}
+        <div class="wiki-content">{{ markdown (printf "%s" .Body) }}</div>
+        {{ else }}
+        <div class="empty-state">
+          <div class="icon">📝</div>
+          <h3>Esta página está vacía</h3>
+          <p>No hay contenido en esta página aún. ¡Comienza a escribir!</p>
+          <a href="/edit/{{ .Title }}" class="btn btn-primary">
+            ✏️ Editar Página
+          </a>
+        </div>
+        {{ end }}
+      </div>
+
+      <div class="footer">
+        <div class="footer-info">
+          <span>📚 Wiki • Página: {{ .Title }}</span>
+        </div>
+        <div class="footer-actions">
+          <a href="/edit/{{ .Title }}" class="btn btn-secondary btn-small">
+            ✏️ Editar
+          </a>
+          <a href="/" class="btn btn-secondary btn-small"> 🏠 Inicio </a>
+          <a href="/list" class="btn btn-secondary btn-small"> 📋 Lista </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

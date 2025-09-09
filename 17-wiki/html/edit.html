@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar {{ .Title }}</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <style>
+      .form-container {
+        padding: 40px;
+        background: var(--secondary-black);
+      }
+
+      .form-group {
+        margin-bottom: 30px;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: var(--text-light);
+        font-size: 1.1rem;
+      }
+
+      .form-textarea {
+        width: 100%;
+        height: 75vh;
+        min-height: 600px;
+        padding: 25px;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        font-family: "Courier New", monospace;
+        font-size: 16px;
+        line-height: 1.8;
+        resize: vertical;
+        transition: all 0.3s ease;
+        background: var(--accent-black);
+        color: var(--text-light);
+        box-sizing: border-box;
+      }
+
+      .form-textarea:focus {
+        outline: none;
+        border-color: var(--primary-green);
+        box-shadow: 0 0 0 3px var(--shadow-color);
+        background: var(--secondary-black);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+      }
+
+      .help-text {
+        background: var(--accent-black);
+        border-left: 4px solid var(--primary-green);
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 0 8px 8px 0;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .help-text strong {
+        color: var(--primary-green);
+      }
+
+      .help-text code {
+        background: var(--secondary-black);
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: var(--primary-green);
+        font-family: "Courier New", monospace;
+      }
+
+      @media (max-width: 768px) {
+        .form-container {
+          padding: 20px;
+        }
+
+        .form-textarea {
+          height: 60vh;
+          min-height: 400px;
+          font-size: 14px;
+          padding: 20px;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>✏️ Editar {{ .Title }}</h1>
+        <p class="subtitle">Modifica el contenido de tu página wiki</p>
+      </div>
+
+      <div class="form-container">
+        <div class="help-text">
+          <strong>💡 Consejo:</strong> Puedes usar
+          <strong>Markdown</strong> para formatear tu texto. Usa
+          <code>**texto**</code> para negrita, <code>*texto*</code> para
+          cursiva, y <code>#</code> para títulos.
+        </div>
+
+        <form method="POST" action="/save/{{ .Title }}">
+          <div class="form-group">
+            <label for="body">Contenido de la página:</label>
+            <textarea
+              name="body"
+              id="body"
+              class="form-textarea"
+              placeholder="Escribe el contenido de tu página aquí..."
+              required
+            >
+{{ .Body }}</textarea
+            >
+          </div>
+
+          <div class="button-group">
+            <button type="submit" class="btn btn-primary">
+              💾 Guardar Cambios
+            </button>
+            <a href="/view/{{ .Title }}" class="btn btn-secondary">
+              👁️ Ver Página
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
